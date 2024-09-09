@@ -43,8 +43,10 @@ In the first three iterations, I used a single combined model to predict the sal
 
 ### Store-Type-Specific Models (Model 4)
 
-For the fourth model, I realized through bar charts and box plots that stores behaved differently based on their type (A to E). After analyzing this, I created separate models for each store type:
+For the fourth model, I realized that stores behaved differently based on their type (A to E). After analyzing this, I created separate models for each store type:
 ![image](https://github.com/user-attachments/assets/92920639-745e-4542-912c-7769a4dd403b)
+
+![image](https://github.com/user-attachments/assets/210192f7-9a9a-48da-b99c-384fb1aa4fc9)
 
 - Store types B and D were combined as they exhibited similar behavior.
 - I also excluded data before 2016 due to a drastic change in oil prices, which improved predictions.
