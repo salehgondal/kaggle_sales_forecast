@@ -5,7 +5,7 @@
 
 This project was part of the [Kaggle "Store Sales - Time Series Forecasting" competition](https://www.kaggle.com/competitions/store-sales-time-series-forecasting/overview), where the goal was to predict store sales using historical sales data. The challenge involved forecasting sales at different stores for various product families, and the objective was to minimize the root mean squared logarithmic error (RMSLE).
 
-The training data spanned from the start of 2013 until August 15, 2017, and predictions were required for the period from August 16 to August 31, 2017, covering 15 days.
+The training data spanned from the start of 2013 until August 15, 2017, and predictions were required for the period from August 16 to August 30, 2017, covering 15 days.
 
 In this project, I used five different models, improving the data processing and model structure in each iteration. Below is a detailed explanation of my approach and the results achieved.
 
@@ -14,7 +14,7 @@ In this project, I used five different models, improving the data processing and
 The initial data preprocessing steps were largely consistent across the models:
 
 - **Handling missing values**: Simple imputation was used for any missing data.
-- **Feature engineering**: I created time-based features such as `year`, `month`, `day`, and `quarter`. External data like oil prices and holiday events were also incorporated.
+- **Feature engineering**: I created time-based such as `year`, `month` and `day` and lag features such as sales with 30 days and 365 days lag. External data holiday events were also incorporated.
 - **Splitting data**: I used time-based splits to ensure the model could generalize on future data.
 
 Key changes and improvements made during the modeling process:
@@ -44,6 +44,7 @@ In the first three iterations, I used a single combined model to predict the sal
 ### Store-Type-Specific Models (Model 4)
 
 For the fourth model, I realized through bar charts and box plots that stores behaved differently based on their type (A to E). After analyzing this, I created separate models for each store type:
+![image](https://github.com/user-attachments/assets/92920639-745e-4542-912c-7769a4dd403b)
 
 - Store types B and D were combined as they exhibited similar behavior.
 - I also excluded data before 2016 due to a drastic change in oil prices, which improved predictions.
@@ -69,5 +70,3 @@ The most significant improvement occurred in Model 3 when I added the average sa
 The iterative approach in this project, from basic combined models to specialized models for store types, and the introduction of key features like average sales by day, helped achieve substantial improvements in performance. Future work could focus on integrating more sophisticated time-series models or further refining the ensemble approach.
 
 ---
-
-You can add relevant visualizations and insights at various points in the document to make it more interactive and visually appealing. Make sure to reference your charts and findings clearly.
