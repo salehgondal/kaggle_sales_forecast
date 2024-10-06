@@ -48,7 +48,7 @@ st.subheader('Total Residual Error Heatmap')
 fig_heatmap = px.imshow(heatmap_pivot, color_continuous_scale='RdYlGn_r', aspect='auto',
                         labels=dict(x='Product Family', y='Store Number', color='Error'))
 fig_heatmap.update_layout(height=600, width=800)
-#st.plotly_chart(fig_heatmap)
+# st.plotly_chart(fig_heatmap)
 
 # Capture heatmap click
 selected_store_family = st.plotly_chart(fig_heatmap, use_container_width=True)
@@ -63,11 +63,11 @@ if selected_store_family is not None:
 st.sidebar.header('Filter Options')
 
 # Order stores by highest volume of sales
-store_sales_volume = ['All'] + list(all_predictions_df.groupby('store_nbr')['actual_sales'].sum().sort_values(ascending=False).index)
-store_selection = st.sidebar.selectbox('Select Store Number (Ordered by Sales Volume):', store_sales_volume, index=0)
+# store_sales_volume = ['All'] + list(all_predictions_df.groupby('store_nbr')['actual_sales'].sum().sort_values(ascending=False).index)
+# store_selection = st.sidebar.selectbox('Select Store Number (Ordered by Sales Volume):', store_sales_volume, index=0)
 
 # Dropdown to select family of product
-family_selection = st.sidebar.selectbox('Select Product Family:', ['All'] + list(all_predictions_df['family'].unique()), index=0)
+# family_selection = st.sidebar.selectbox('Select Product Family:', ['All'] + list(all_predictions_df['family'].unique()), index=0)
 
 # Date range selection with datetime.date type
 min_date = all_predictions_df['date'].min()
