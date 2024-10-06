@@ -70,12 +70,12 @@ filtered_df = all_predictions_df[(all_predictions_df['store_nbr'] == store_selec
                                  (all_predictions_df['date'] >= start_date) &
                                  (all_predictions_df['date'] <= end_date)]
 
-# Determine the overall max date to use for consistent x-axis
-adjusted_max_date = max(filtered_df['date'].max(), max_date)
+# Filter out rows where actual_sales is NA for residuals plot
+filtered_residuals_df = filtered_df[filtered_df['actual_sales'].notna()]
 
+# Determine the overall max date to use for consistent x-axis
 # Predicted vs Actual Sales Graph with Plotly for hover functionality
 st.subheader('Predicted vs Actual Sales Over Time')
-
 fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=filtered_df['date'],
@@ -106,13 +106,9 @@ fig.update_layout(
     xaxis_tickangle=45,
     height=600,
     width=900,
-    xaxis=dict(range=[start_date, end_date]),
+    
     legend=dict(orientation='h', y=-0.2)  # Place legend at the bottom
 )
-
-st.plotly_chart(fig)
-
-filtered_residuals_df = filtered_df[filtered_df['actual_sales'].notna()]
 
 st.plotly_chart(fig)
 
@@ -120,21 +116,6 @@ st.plotly_chart(fig)
 st.subheader('Residuals Over Time')
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=filtered_residuals_df['date'], y=filtered_residuals_df['residuals'], mode='lines+markers', name='Residuals', line=dict(color='red')))
-
-# Convert the date to datetime format for trendline fitting
-filtered_residuals_df['date_ordinal'] = pd.to_datetime(filtered_residuals_df['date']).map(pd.Timestamp.toordinal)
-
-# Add a dotted trend line for the residuals
-trendline = np.polyfit(filtered_residuals_df['date_ordinal'], filtered_residuals_df['residuals'], 1)
-trendline_fn = np.poly1d(trendline)
-fig.add_trace(go.Scatter(
-    x=filtered_df['date'],
-    y=trendline_fn(filtered_residuals_df['date_ordinal']),
-    mode='lines',
-    name='Residuals Trend Line',
-    line=dict(color='blue', dash='dot')
-))
-
 fig.update_layout(
     title=f'Residuals for Store {store_selection} and Product Family {family_selection}',
     xaxis_title='Date',
