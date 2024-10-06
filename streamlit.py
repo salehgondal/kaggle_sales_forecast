@@ -114,7 +114,6 @@ fig.update_layout(
     xaxis_tickangle=45,
     height=600,
     width=900,
-    xaxis=dict(range=[start_date, end_date]),
     legend=dict(orientation='h', y=-0.2)  # Place legend at the bottom
 )
 
