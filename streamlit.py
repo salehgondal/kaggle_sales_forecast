@@ -113,7 +113,7 @@ st.plotly_chart(fig)
 # Residuals Graph with Plotly for hover functionality
 st.subheader('Residuals Over Time')
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=filtered_residuals_df['date'], y=filtered_residuals_df['residuals'], mode='lines+markers', name='Residuals', line=dict(color='red')))
+fig.add_trace(go.Scatter(x=filtered_residuals_df['date'], y=filtered_residuals_df['residuals'], mode='markers', name='Residuals', line=dict(color='red')))
 
 # Convert the date to datetime format for trendline fitting
 filtered_residuals_df['date_ordinal'] = pd.to_datetime(filtered_residuals_df['date']).map(pd.Timestamp.toordinal)
