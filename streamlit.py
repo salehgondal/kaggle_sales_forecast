@@ -82,6 +82,12 @@ date_range = st.sidebar.slider('Select Date Range:',
 # Update start and end dates based on the slider
 start_date, end_date = date_range
 
+# Capture click data from heatmap
+click_data = st.session_state.get("click_data", None)
+if st.session_state.get("click_data") is not None:
+    store_selection = st.session_state["click_data"]["store_selection"]
+    family_selection = st.session_state["click_data"]["family_selection"]
+
 # Filter data based on selections
 filtered_df = all_predictions_df[(all_predictions_df['date'] >= start_date) & (all_predictions_df['date'] <= end_date)]
 
