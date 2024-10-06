@@ -75,7 +75,7 @@ adjusted_max_date = max(filtered_df['date'].max(), max_date)
 
 # Predicted vs Actual Sales Graph with Plotly for hover functionality
 st.subheader('Predicted vs Actual Sales Over Time')
-fig = go.Figure()
+
 fig = go.Figure()
 fig.add_trace(go.Scatter(
     x=filtered_df['date'],
