@@ -47,7 +47,7 @@ heatmap_pivot = heatmap_df.pivot(index='store_nbr', columns='family', values='re
 st.subheader('Total Residual Error Heatmap')
 fig_heatmap = px.imshow(heatmap_pivot, color_continuous_scale='Viridis', aspect='auto',
                         labels=dict(x='Product Family', y='Store Number', color='Total Residual Error'))
-fig_heatmap.update_layout(height=400, width=900)
+fig_heatmap.update_layout(height=800, width=1500)
 st.plotly_chart(fig_heatmap)
 
 # Sidebar for controls
