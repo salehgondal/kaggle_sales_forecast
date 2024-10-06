@@ -43,11 +43,11 @@ st.title('Sales Predictions Dashboard')
 st.sidebar.header('Filter Options')
 
 # Order stores by highest volume of sales
-store_sales_volume = all_predictions_df.groupby('store_nbr')['actual_sales'].sum().sort_values(ascending=False).index
-store_selection = st.sidebar.selectbox('Select Store Number (Ordered by Sales Volume):', store_sales_volume)
+store_sales_volume = ['All'] + list(all_predictions_df.groupby('store_nbr')['actual_sales'].sum().sort_values(ascending=False).index)
+store_selection = st.sidebar.selectbox('Select Store Number (Ordered by Sales Volume):', store_sales_volume, index=0)
 
 # Dropdown to select family of product
-family_selection = st.sidebar.selectbox('Select Product Family:', all_predictions_df['family'].unique(), index=list(all_predictions_df['family'].unique()).index('GROCERY I'))
+family_selection = st.sidebar.selectbox('Select Product Family:', ['All'] + list(all_predictions_df['family'].unique()), index=0)
 
 # Date range selection with datetime.date type
 min_date = all_predictions_df['date'].min()
@@ -65,10 +65,17 @@ date_range = st.sidebar.slider('Select Date Range:',
 start_date, end_date = date_range
 
 # Filter data based on selections
-filtered_df = all_predictions_df[(all_predictions_df['store_nbr'] == store_selection) &
-                                 (all_predictions_df['family'] == family_selection) &
-                                 (all_predictions_df['date'] >= start_date) &
-                                 (all_predictions_df['date'] <= end_date)]
+filtered_df = all_predictions_df[(all_predictions_df['date'] >= start_date) & (all_predictions_df['date'] <= end_date)]
+
+if store_selection != 'All':
+    filtered_df = filtered_df[filtered_df['store_nbr'] == store_selection]
+
+if family_selection != 'All':
+    filtered_df = filtered_df[filtered_df['family'] == family_selection]
+
+# Sum the predictions and sales if 'All' is selected
+if store_selection == 'All' or family_selection == 'All':
+    filtered_df = filtered_df.groupby('date', as_index=False).agg({'actual_sales': 'sum', 'predicted_sales': 'sum', 'residuals': 'sum'})
 
 # Predicted vs Actual Sales Graph with Plotly for hover functionality
 st.subheader('Predicted vs Actual Sales Over Time')
