@@ -39,6 +39,16 @@ st.markdown(
 # Streamlit Dashboard
 st.title('Sales Predictions Dashboard')
 
+# Heatmap for total residual error by store and product family
+heatmap_df = all_predictions_df.groupby(['store_nbr', 'family']).agg({'residuals': 'sum'}).reset_index()
+heatmap_pivot = heatmap_df.pivot(index='store_nbr', columns='family', values='residuals')
+
+st.subheader('Total Residual Error Heatmap')
+fig_heatmap = px.imshow(heatmap_pivot, color_continuous_scale='Viridis', aspect='auto',
+                        labels=dict(x='Product Family', y='Store Number', color='Total Residual Error'))
+fig_heatmap.update_layout(height=400, width=900)
+st.plotly_chart(fig_heatmap)
+
 # Sidebar for controls
 st.sidebar.header('Filter Options')
 
