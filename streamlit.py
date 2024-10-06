@@ -70,9 +70,6 @@ filtered_df = all_predictions_df[(all_predictions_df['store_nbr'] == store_selec
                                  (all_predictions_df['date'] >= start_date) &
                                  (all_predictions_df['date'] <= end_date)]
 
-# Determine the overall max date to use for consistent x-axis
-adjusted_max_date = min(filtered_df['date'].max(), '2017-08-15')
-
 # Predicted vs Actual Sales Graph with Plotly for hover functionality
 st.subheader('Predicted vs Actual Sales Over Time')
 fig = go.Figure()
