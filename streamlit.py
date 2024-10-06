@@ -112,20 +112,24 @@ fig.update_layout(
 
 st.plotly_chart(fig)
 
+filtered_residuals_df = filtered_df[filtered_df['actual_sales'].notna()]
+
+st.plotly_chart(fig)
+
 # Residuals Graph with Plotly for hover functionality
 st.subheader('Residuals Over Time')
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=filtered_df['date'], y=filtered_df['residuals'], mode='lines+markers', name='Residuals', line=dict(color='red')))
+fig.add_trace(go.Scatter(x=filtered_residuals_df['date'], y=filtered_residuals_df['residuals'], mode='lines+markers', name='Residuals', line=dict(color='red')))
 
 # Convert the date to datetime format for trendline fitting
-filtered_df['date_ordinal'] = pd.to_datetime(filtered_df['date']).map(pd.Timestamp.toordinal)
+filtered_df['date_ordinal'] = pd.to_datetime(filtered_residuals_df['date']).map(pd.Timestamp.toordinal)
 
 # Add a dotted trend line for the residuals
-trendline = np.polyfit(filtered_df['date_ordinal'], filtered_df['residuals'], 1)
+trendline = np.polyfit(filtered_residuals_df['date_ordinal'], filtered_residuals_df['residuals'], 1)
 trendline_fn = np.poly1d(trendline)
 fig.add_trace(go.Scatter(
     x=filtered_df['date'],
-    y=trendline_fn(filtered_df['date_ordinal']),
+    y=trendline_fn(filtered_residuals_df['date_ordinal']),
     mode='lines',
     name='Residuals Trend Line',
     line=dict(color='blue', dash='dot')
