@@ -48,7 +48,16 @@ st.subheader('Total Residual Error Heatmap')
 fig_heatmap = px.imshow(heatmap_pivot, color_continuous_scale='RdYlGn_r', aspect='auto',
                         labels=dict(x='Product Family', y='Store Number', color='Error'))
 fig_heatmap.update_layout(height=600, width=800)
-st.plotly_chart(fig_heatmap)
+#st.plotly_chart(fig_heatmap)
+
+# Capture heatmap click
+selected_store_family = st.plotly_chart(fig_heatmap, use_container_width=True)
+
+if selected_store_family is not None:
+    selected_store, selected_family = selected_store_family['points'][0]['y'], selected_store_family['points'][0]['x']
+    store_selection = selected_store
+    family_selection = selected_family
+
 
 # Sidebar for controls
 st.sidebar.header('Filter Options')
