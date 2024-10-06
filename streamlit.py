@@ -77,12 +77,17 @@ if family_selection != 'All':
 if store_selection == 'All' or family_selection == 'All':
     filtered_df = filtered_df.groupby('date', as_index=False).agg({'actual_sales': 'sum', 'predicted_sales': 'sum', 'residuals': 'sum'})
 
+# Separate train and test datasets based on date
+test_start_date = pd.to_datetime('2017-08-15').date()
+train_filtered_df = filtered_df[filtered_df['date'] <= test_start_date]
+test_filtered_df = filtered_df[filtered_df['date'] > test_start_date]
+
 # Predicted vs Actual Sales Graph with Plotly for hover functionality
 st.subheader('Predicted vs Actual Sales Over Time')
 fig = go.Figure()
 fig.add_trace(go.Scatter(
-    x=filtered_df['date'],
-    y=filtered_df['actual_sales'],
+    x=train_filtered_df['date'],
+    y=train_filtered_df['actual_sales'],
     mode='lines+markers',
     name='Actual Sales',
     line=dict(color='blue'),
@@ -90,8 +95,8 @@ fig.add_trace(go.Scatter(
     legendgroup='group1'
 ))
 fig.add_trace(go.Scatter(
-    x=filtered_df['date'],
-    y=filtered_df['predicted_sales'],
+    x=train_filtered_df['date'],
+    y=train_filtered_df['predicted_sales'],
     mode='lines+markers',
     name='Predicted Sales (Train)',
     line=dict(color='green'),
@@ -100,7 +105,7 @@ fig.add_trace(go.Scatter(
 ))
 
 # Add test predictions with a different color
-fig.add_trace(go.Scatter(x=filtered_df[filtered_df['actual_sales'].isna()]['date'], y=filtered_df[filtered_df['actual_sales'].isna()]['predicted_sales'], mode='lines+markers', name='Predicted Sales (Test)', line=dict(color='orange'),
+fig.add_trace(go.Scatter(x=test_filtered_df['date'], y=test_filtered_df['predicted_sales'], mode='lines+markers', name='Predicted Sales (Test)', line=dict(color='orange'),
                           hovertemplate='Date: %{x}<br>Predicted Sales (Test): %{y}<extra></extra>'))
 fig.update_layout(
     title=f'Predicted vs Actual Sales for Store {store_selection} and Product Family {family_selection}',
@@ -113,7 +118,7 @@ fig.update_layout(
     legend=dict(orientation='h', y=-0.2)  # Place legend at the bottom
 )
 
-filtered_residuals_df = filtered_df[filtered_df['actual_sales'].notna()]
+filtered_residuals_df = train_filtered_df[train_filtered_df['actual_sales'].notna()]
 
 st.plotly_chart(fig)
 
