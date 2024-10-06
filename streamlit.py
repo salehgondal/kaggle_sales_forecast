@@ -48,14 +48,7 @@ st.subheader('Total Residual Error Heatmap')
 fig_heatmap = px.imshow(heatmap_pivot, color_continuous_scale='RdYlGn_r', aspect='auto',
                         labels=dict(x='Product Family', y='Store Number', color='Error'))
 fig_heatmap.update_layout(height=600, width=800)
-# st.plotly_chart(fig_heatmap)
-heatmap_chart = st.plotly_chart(fig_heatmap, use_container_width=True)
-
-# Use session state to keep track of user selection from heatmap click
-if 'store_selection' not in st.session_state:
-    st.session_state.store_selection = 'All'
-if 'family_selection' not in st.session_state:
-    st.session_state.family_selection = 'All'
+st.plotly_chart(fig_heatmap)
 
 # Sidebar for controls
 st.sidebar.header('Filter Options')
@@ -81,12 +74,6 @@ date_range = st.sidebar.slider('Select Date Range:',
 
 # Update start and end dates based on the slider
 start_date, end_date = date_range
-
-# Capture click data from heatmap
-click_data = st.session_state.get("click_data", None)
-if st.session_state.get("click_data") is not None:
-    store_selection = st.session_state["click_data"]["store_selection"]
-    family_selection = st.session_state["click_data"]["family_selection"]
 
 # Filter data based on selections
 filtered_df = all_predictions_df[(all_predictions_df['date'] >= start_date) & (all_predictions_df['date'] <= end_date)]
