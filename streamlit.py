@@ -49,25 +49,23 @@ fig_heatmap = px.imshow(heatmap_pivot, color_continuous_scale='RdYlGn_r', aspect
                         labels=dict(x='Product Family', y='Store Number', color='Error'))
 fig_heatmap.update_layout(height=600, width=800)
 # st.plotly_chart(fig_heatmap)
+heatmap_chart = st.plotly_chart(fig_heatmap, use_container_width=True)
 
-# Capture heatmap click
-selected_store_family = st.plotly_chart(fig_heatmap, use_container_width=True)
-
-if selected_store_family is not None:
-    selected_store, selected_family = selected_store_family['points'][0]['y'], selected_store_family['points'][0]['x']
-    store_selection = selected_store
-    family_selection = selected_family
-
+# Use session state to keep track of user selection from heatmap click
+if 'store_selection' not in st.session_state:
+    st.session_state.store_selection = 'All'
+if 'family_selection' not in st.session_state:
+    st.session_state.family_selection = 'All'
 
 # Sidebar for controls
 st.sidebar.header('Filter Options')
 
 # Order stores by highest volume of sales
-# store_sales_volume = ['All'] + list(all_predictions_df.groupby('store_nbr')['actual_sales'].sum().sort_values(ascending=False).index)
-# store_selection = st.sidebar.selectbox('Select Store Number (Ordered by Sales Volume):', store_sales_volume, index=0)
+store_sales_volume = ['All'] + list(all_predictions_df.groupby('store_nbr')['actual_sales'].sum().sort_values(ascending=False).index)
+store_selection = st.sidebar.selectbox('Select Store Number (Ordered by Sales Volume):', store_sales_volume, index=0, key='store_select')
 
 # Dropdown to select family of product
-# family_selection = st.sidebar.selectbox('Select Product Family:', ['All'] + list(all_predictions_df['family'].unique()), index=0)
+family_selection = st.sidebar.selectbox('Select Product Family:', ['All'] + list(all_predictions_df['family'].unique()), index=0, key='family_select')
 
 # Date range selection with datetime.date type
 min_date = all_predictions_df['date'].min()
