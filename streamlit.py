@@ -122,7 +122,7 @@ fig = go.Figure()
 fig.add_trace(go.Scatter(x=filtered_residuals_df['date'], y=filtered_residuals_df['residuals'], mode='lines+markers', name='Residuals', line=dict(color='red')))
 
 # Convert the date to datetime format for trendline fitting
-filtered_df['date_ordinal'] = pd.to_datetime(filtered_residuals_df['date']).map(pd.Timestamp.toordinal)
+filtered_residuals_df['date_ordinal'] = pd.to_datetime(filtered_residuals_df['date']).map(pd.Timestamp.toordinal)
 
 # Add a dotted trend line for the residuals
 trendline = np.polyfit(filtered_residuals_df['date_ordinal'], filtered_residuals_df['residuals'], 1)
