@@ -1,5 +1,9 @@
 # Store Sales - Time Series Forecasting
 
+## Dashboard
+
+[Dashboard for Kaggle Sales Forecasting](https://kagglesalesforecast-ckyzgqp2jbsfeceidsk5w2.streamlit.app/)
+
 ## Introduction
 
 This project was part of the [Kaggle "Store Sales - Time Series Forecasting" competition](https://www.kaggle.com/competitions/store-sales-time-series-forecasting/overview), where the goal was to predict store sales using historical sales data. The challenge involved forecasting sales at different stores for various product families, and the objective was to minimize the root mean squared logarithmic error (RMSLE).
