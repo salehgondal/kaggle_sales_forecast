@@ -66,7 +66,7 @@ In the final model, I used a combination of Random Forest and XGBoost prediction
 | Model 2    | 412  | 0.68513       |
 | Model 3    | 131  | 0.5045        |
 | Model 4    | 105  | 0.4735        |
-| Model 5    | 98   | 0.4587        |
+| Model 5    | 72   | 0.4587        |
 
 The most significant improvement occurred in Model 3 when I added the average sales by day feature. Additionally, creating store-type-specific models and combining predictions in Model 5 further boosted performance.
 
